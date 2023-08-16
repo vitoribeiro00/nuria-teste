@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgis:
+    image: postgres:14.1-alpine
+    restart: always
+    container_name: nuria_teste
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: teste
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DBNAME}'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db:
+    driver: local
